@@ -1,16 +1,19 @@
-import smtplib
+import requests
+import time
 
-# Function to send an email
+URL = 'http://example.com/crac_qinghai'
 
-def send_email(recipient_email):
-    sender_email = 'your_email@example.com'
-    message = 'Subject: Test Email\n\nThis is a test email.'
+# Function to check CRAC website for changes
 
-    with smtplib.SMTP('smtp.example.com', 587) as server:
-        server.starttls()
-        server.login(sender_email, 'your_password')
-        server.sendmail(sender_email, recipient_email, message)
+def check_for_changes():
+    response = requests.get(URL)
+    if response.status_code == 200:
+        data = response.json()  # Assuming a JSON response
+        # Logic to monitor changes in data
+        print('Monitoring changes for Qinghai registration...')
+    else:
+        print('Failed to retrieve data')
 
-if __name__ == '__main__':
-    recipient = 'recipient@example.com'
-    send_email(recipient)
+while True:
+    check_for_changes()
+    time.sleep(60)  # Check every minute
